@@ -2,7 +2,6 @@ apiVersion: v1
 kind: Service
 metadata:
   name: elasticsearch
-  #namespace: kon-ns
 spec:
   selector:
     app: elasticsearch
@@ -16,7 +15,6 @@ apiVersion: "apps/v1"
 kind: "StatefulSet"
 metadata:
   name: elasticsearch
-  #namespace: kon-ns
 spec:
   serviceName: elasticsearch
   selector:
@@ -54,7 +52,6 @@ apiVersion: v1
 kind: Service
 metadata:
   name: kibana
-  #namespace: kon-ns
 spec:
   selector:
     app: kibana
@@ -66,7 +63,6 @@ apiVersion: "apps/v1"
 kind: "StatefulSet"
 metadata:
   name: kibana
-  #namespace: kon-ns
 spec:
   serviceName: kibana
   selector:
@@ -111,7 +107,6 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: filebeat-config
-  #namespace: kon-ns
   labels:
     k8s-app: filebeat
 data:
@@ -137,7 +132,6 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: filebeat
-  #namespace: kon-ns
 spec:
   serviceName: filebeat
   selector:
