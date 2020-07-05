@@ -7,6 +7,8 @@ import time
 import paho.mqtt.client as mqtt
 import os
 import json
+import argparse
+parser = argparse.ArgumentParser()
 
 #DHT11 connect to BCM_GPIO14
 DHTPIN = 14
@@ -25,6 +27,15 @@ STATE_DATA_PULL_DOWN = 5
 EDGE_SERVER = os.getenv('EDGE_SERVER','192.168.199.99')
 EDGE_PORT = os.getenv('EDGE_PORT',1883)
 temp_data = {}
+
+# Setting for payload
+LOCATION = 'tokyo'
+
+# if set parser overwrite
+parser.add_argument('-l', '--location')
+args = parser.parse_args()
+LOCATION = args.location if args.location else LOCATION
+
 
 def read_dht11_dat():
     GPIO.setup(DHTPIN, GPIO.OUT)
@@ -134,11 +145,12 @@ def main():
         result = read_dht11_dat()
         if result:
             humidity, temperature = result
-            print("humidity: %s %%,  Temperature: %s °C" % (humidity, temperature))
+            print("humidity: %s %%,  Temperature: %s °C, Location: %s" % (humidity, temperature, LOCATION))
             
             #mqtt publish
             temp_data["temperature"] = temperature
             temp_data["humidity"] = humidity
+            temp_data["location"] = LOCATION
             mqclient.publish("data/temp", json.dumps(temp_data))
 
         time.sleep(1)
