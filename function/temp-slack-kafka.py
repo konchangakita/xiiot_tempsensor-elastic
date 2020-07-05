@@ -28,10 +28,12 @@ def send_slack(rmsg):
     #logging.info(json.loads(req.data.decode('utf-8')))
 
 def main(ctx, msg):  
+    #logging.info("Parameters: %s", ctx)
     logging.info("Parameters: %s", ctx.get_config())
     logging.info("Receive msg from %s", ctx.get_topic())
     
     rmsg = json.loads(msg)
+    rmsg['sherlock_timestamp'] = ctx.get_timestamp()
     
     # input parameter
     param = ctx.get_config()
@@ -50,6 +52,8 @@ def main(ctx, msg):
         rmsg["hotcold"] = "寒いよ"
         rmsg["limit_t"] = rmsg["limit_under"]        
         send_slack(rmsg)
+    else:
+        rmsg["hotcold"] = "快適"
 
     
     # Forward to next stage in pipeline.
