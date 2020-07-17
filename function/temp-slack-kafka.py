@@ -8,7 +8,7 @@ import datetime
 def send_slack(rmsg):
     http = urllib3.PoolManager()
     # Slack channel "#xi-iot温度計"
-    url = 'https://hooks.slack.com/services/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'
+    url = 'https://hooks.slack.com/services/{webhook}'
     headers = {
         'Content-Type': 'application/json; charset=utf-8'
     }
